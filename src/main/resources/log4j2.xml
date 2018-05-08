@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE >ALL -->
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出；可以设置成OFF(关闭)或Error(只输出错误信息)-->
+<!--monitorInterval：Log4j2能够自动检测修改配置文件和重新配置本身，设置间隔秒数-->
+<Configuration monitorInterval="60">
+    <Properties>
+        <Property name="path">logs</Property>
+    </Properties>
+    <Appenders>
+        <!--这个输出控制台的配置-->
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>
+                    [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>>
+            </PatternLayout>
+        </Console>
+
+        <File name="SpringBoot-Appender" fileName="${path}/springboot_log.log" >
+            <PatternLayout>
+                <pattern>
+                    [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>
+            </PatternLayout>
+        </File>
+
+        <!--这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="ControllerFile-Appender" fileName="${path}/controller_log.log"
+                     filePattern="${path}/$${date:yyyy-MM}/controller_log-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout>
+                <pattern>
+                    [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>
+            </PatternLayout>
+            <SizeBasedTriggeringPolicy size="2MB"/>
+        </RollingFile>
+
+        <RollingFile name="MybatisFile-Appender" fileName="${path}/mybatis_log.log"
+                     filePattern="${path}/$${date:yyyy-MM}/mybatis_log-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout>
+                <pattern>
+                    [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>
+            </PatternLayout>
+            <SizeBasedTriggeringPolicy size="2MB"/>
+        </RollingFile>
+
+
+    </Appenders>
+    <!-- 全局配置，默认所有的Logger都继承此配置 -->
+
+    <!-- 用来配置LoggerConfig，包含一个root logger和若干个普通logger。
+
+    additivity指定是否同时输出log到父类的appender，缺省为true。
+
+    一个Logger可以绑定多个不同的Appender。只有定义了logger并引入的appender，appender才会生效。 -->
+    <Loggers>
+        <!--console-->
+        <AsyncLogger name="org.springframework.web" level="info" additivity="false">
+            <AppenderRef ref="SpringBoot-Appender"/>
+            <AppenderRef ref="Console-Appender"/>
+        </AsyncLogger>
+        <!--controller-->
+        <AsyncLogger name="com.sheldon.sheldonblog.controller" level="info" additivity="false">
+            <AppenderRef ref="ControllerFile-Appender"/>
+            <AppenderRef ref="Console-Appender"/>
+        </AsyncLogger>
+        <!--mybatis-->
+        <AsyncLogger name="com.sheldon.sheldonblog.dao" level="debug" additivity="false">
+            <AppenderRef ref="MybatisFile-Appender"/>
+            <AppenderRef ref="Console-Appender"/>
+        </AsyncLogger>
+        <!--root-->
+        <AsyncRoot level="info">
+            <AppenderRef ref="Console-Appender"/>
+        </AsyncRoot>
+    </Loggers>
+</Configuration>

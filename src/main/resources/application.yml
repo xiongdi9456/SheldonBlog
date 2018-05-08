@@ -1,0 +1,19 @@
+#serevr
+server:
+  port: 8081
+
+#mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.sheldon.sheldonblog.entity
+  config-location: classpath:mybatis-config.xml
+
+mapper:
+  mappers: com.sheldon.sheldonblog.common.MyMapper
+  not-empty: false
+  identity: MYSQL
+
+#logging
+logging:
+  config: classpath:log4j2.xml
+
