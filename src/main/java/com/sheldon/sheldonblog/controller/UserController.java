@@ -1,47 +1,81 @@
 package com.sheldon.sheldonblog.controller;
 
-
+import com.sheldon.sheldonblog.common.MyBaseController;
 import com.sheldon.sheldonblog.entity.User;
+import com.sheldon.sheldonblog.entity.dto.form.UserLoginForm;
+import com.sheldon.sheldonblog.entity.dto.form.UserRegisterForm;
 import com.sheldon.sheldonblog.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
-@RestController
-public class UserController {
+import static com.sheldon.sheldonblog.consts.ViewConsts.VIEW_MSG;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+/**
+ * 用户登录控制器
+ *
+ * @author James
+ */
+@Controller
+public class UserController extends MyBaseController {
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService mUserService;
 
-    @RequestMapping(value = "/user/add",method = RequestMethod.GET)
-    public void addOneUser(){
-        logger.info("add a user once");
-        User user = new User();
-        user.setUsername("abc");
-        user.setPassword("122222444");
-        user.setNickname("aaaa");
-        user.setStatus(0);
-        user.setLevel(0);
-        //SimpleDateFormat nowTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //nowTimeFormat.format(nowTime)
-        Date nowTime = new Date();
-        user.setGmtCreate(nowTime);
-        user.setGmtModified(nowTime);
-        userService.save(user);
+  /**
+   * 前台用户登录
+   * 表单提交
+   */
+  @PostMapping("/userlogin.f")
+  public String fFrontUserLogin(HttpServletRequest request, Model model, @Valid UserLoginForm loginForm, BindingResult bindingResult) throws Exception {
+    if (bindingResult.hasErrors()) {
+      List<ObjectError> errors = bindingResult.getAllErrors();
+      addModelAtt(model, VIEW_MSG, errors.get(0).getDefaultMessage());
+      return "userlogin";
     }
-
-    @RequestMapping(value = "user/list", method = RequestMethod.GET)
-    public List<User> listUser(@RequestParam(value = "pageNum") int pageNum, @RequestParam(value = "pageSize") int pageSize){
-        logger.info("get user list");
-        List<User> userList= userService.getList(pageNum,pageSize);
-        return userList;
+    User user = mUserService.loginAuthentication(loginForm);
+    if (null != user) {
+      mUserService.joinSession(request, user);
+      return "redirect:/";
     }
+    addModelAtt(model, VIEW_MSG, "用户名或密码错误");
+    return "userlogin";
+  }
 
+  /**
+   * 前台用户注册
+   * 表单提交
+   */
+  @PostMapping("/userregister.f")
+  public String fFrontUserRegister(@Valid UserRegisterForm registerForm, BindingResult bindingResult, HttpServletRequest request, Model model, User user) {
+    if (bindingResult.hasErrors()) {
+      List<ObjectError> errors = bindingResult.getAllErrors();
+      return "redirect:/userregister";
+    }
+    //再次进行重名校验
+    if (mUserService.registerUsernameCheckExist(registerForm)) {
+      return "redirect:/userregister";
+    }
+    //再次进行密码一致校验
+    if (!(registerForm.getPassword().equals(registerForm.getConfirmpassword()))) {
+      return "redirect:/userregister";
+    }
+    mUserService.insertUser(user);
+    //跳转登录
+    return "redirect:/userlogin";
+  }
+
+  @GetMapping("/usersignout.c")
+  public String cFrontUserSignout(HttpServletRequest request) {
+    mUserService.destroySession(request);
+    return "redirect:index";
+  }
 }

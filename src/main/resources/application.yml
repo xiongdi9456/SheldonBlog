@@ -16,4 +16,32 @@ mapper:
 #logging
 logging:
   config: classpath:log4j2.xml
+#spring
+spring:
+  freemarker:
+    enabled: true
+    suffix: .ftl
+    charset: UTF-8
+    content-type: text/html
+    allow-request-override: true
+    check-template-location: true
+    expose-request-attributes: true
+    expose-spring-macro-helpers: true
+    expose-session-attributes: true
+    request-context-attribute: request
+    template-loader-path: classpath:/templates/
+  resources:
+    static-locations: classpath:/static/
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+        fixed:
+          enabled: true
+          paths: /js/lib
+          version: v12
+  application:
+    name: SheldonBlog
+
 

@@ -4,3 +4,52 @@
 [DEBUG] 2018-05-08 18:27:56.857 [http-nio-8081-exec-1] selectAll - ==>  Preparing: SELECT id,username,password,birth_date,nickname,email,github,qq,wecaht,avatar,status,level,gmt_create,gmt_modified,hobby,motto,md_info FROM user LIMIT ? 
 [DEBUG] 2018-05-08 18:27:56.860 [http-nio-8081-exec-1] selectAll - ==> Parameters: 3(Integer)
 [DEBUG] 2018-05-08 18:27:56.864 [http-nio-8081-exec-1] selectAll - <==      Total: 3
+[DEBUG] 2018-05-09 13:47:45.999 [http-nio-8081-exec-8] insert - ==>  Preparing: INSERT INTO user ( id,username,password,birth_date,nickname,email,github,qq,wecaht,avatar,status,level,gmt_create,gmt_modified,hobby,motto,md_info ) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? ) 
+[DEBUG] 2018-05-09 13:47:46.156 [http-nio-8081-exec-8] insert - ==> Parameters: null, abc(String), 122222444(String), null, aaaa(String), null, null, null, null, null, 0(Integer), 0(Integer), 2018-05-09 13:47:45.554(Timestamp), 2018-05-09 13:47:45.554(Timestamp), null, null, null
+[DEBUG] 2018-05-09 13:47:46.172 [http-nio-8081-exec-8] insert - <==    Updates: 1
+[DEBUG] 2018-05-09 13:47:46.181 [http-nio-8081-exec-8] insert!selectKey - ==>  Executing: SELECT LAST_INSERT_ID() 
+[DEBUG] 2018-05-09 13:47:46.208 [http-nio-8081-exec-8] insert!selectKey - <==      Total: 1
+[DEBUG] 2018-05-09 13:52:34.701 [http-nio-8081-exec-1] insert - ==>  Preparing: INSERT INTO user ( id,username,password,birth_date,nickname,email,github,qq,wecaht,avatar,status,level,gmt_create,gmt_modified,hobby,motto,md_info ) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? ) 
+[DEBUG] 2018-05-09 13:52:34.854 [http-nio-8081-exec-1] insert - ==> Parameters: null, abc(String), 122222444(String), null, aaaa(String), null, null, null, null, null, 0(Integer), 0(Integer), 2018-05-09 13:52:34.271(Timestamp), 2018-05-09 13:52:34.271(Timestamp), null, null, null
+[DEBUG] 2018-05-09 13:52:34.865 [http-nio-8081-exec-1] insert - <==    Updates: 1
+[DEBUG] 2018-05-09 13:52:34.872 [http-nio-8081-exec-1] insert!selectKey - ==>  Executing: SELECT LAST_INSERT_ID() 
+[DEBUG] 2018-05-09 13:52:34.905 [http-nio-8081-exec-1] insert!selectKey - <==      Total: 1
+[DEBUG] 2018-05-09 16:08:48.207 [http-nio-8081-exec-7] getPostViewAllArticles - ==>  Preparing: SELECT article.id,title,introduction,article.gmt_create AS gmtCreate,article.gmt_modified AS gmtModified FROM article ORDER BY article.gmt_create DESC 
+[DEBUG] 2018-05-09 16:08:48.369 [http-nio-8081-exec-7] getPostViewAllArticles - ==> Parameters: 
+[DEBUG] 2018-05-09 16:08:48.395 [http-nio-8081-exec-7] getPostViewAllArticles - <==      Total: 3
+[DEBUG] 2018-05-09 16:08:48.447 [http-nio-8081-exec-7] selectAllTagView - ==>  Preparing: SELECT tag.id AS tagId, tag.name AS tagName, COUNT(tag_article.article_id) AS articleCount FROM tag_article LEFT JOIN tag ON tag.id = tag_article.tag_id GROUP BY tag_article.tag_id 
+[DEBUG] 2018-05-09 16:08:48.463 [http-nio-8081-exec-7] selectAllTagView - ==> Parameters: 
+[DEBUG] 2018-05-09 16:08:48.468 [http-nio-8081-exec-7] selectAllTagView - <==      Total: 6
+[DEBUG] 2018-05-09 16:08:55.125 [http-nio-8081-exec-4] selectAll - ==>  Preparing: SELECT id,title,gmt_create,gmt_modified,introduction,html_material,md_material FROM resume 
+[DEBUG] 2018-05-09 16:08:55.126 [http-nio-8081-exec-4] selectAll - ==> Parameters: 
+[DEBUG] 2018-05-09 16:08:55.128 [http-nio-8081-exec-4] selectAll - <==      Total: 1
+[DEBUG] 2018-05-09 16:08:56.670 [http-nio-8081-exec-10] getPostViewAllArticles - ==>  Preparing: SELECT article.id,title,introduction,article.gmt_create AS gmtCreate,article.gmt_modified AS gmtModified FROM article ORDER BY article.gmt_create DESC 
+[DEBUG] 2018-05-09 16:08:56.670 [http-nio-8081-exec-10] getPostViewAllArticles - ==> Parameters: 
+[DEBUG] 2018-05-09 16:08:56.672 [http-nio-8081-exec-10] getPostViewAllArticles - <==      Total: 3
+[DEBUG] 2018-05-09 16:08:56.673 [http-nio-8081-exec-10] selectAllTagView - ==>  Preparing: SELECT tag.id AS tagId, tag.name AS tagName, COUNT(tag_article.article_id) AS articleCount FROM tag_article LEFT JOIN tag ON tag.id = tag_article.tag_id GROUP BY tag_article.tag_id 
+[DEBUG] 2018-05-09 16:08:56.673 [http-nio-8081-exec-10] selectAllTagView - ==> Parameters: 
+[DEBUG] 2018-05-09 16:08:56.674 [http-nio-8081-exec-10] selectAllTagView - <==      Total: 6
+[DEBUG] 2018-05-09 16:09:02.735 [http-nio-8081-exec-2] getArticleListByCondition - ==>  Preparing: SELECT article.id,title,introduction,article.gmt_create AS gmtCreate,article.gmt_modified AS gmtModified FROM article WHERE (article.title LIKE CONCAT ('%','test','%')) 
+[DEBUG] 2018-05-09 16:09:02.766 [http-nio-8081-exec-2] getArticleListByCondition - ==> Parameters: 
+[DEBUG] 2018-05-09 16:09:02.768 [http-nio-8081-exec-2] getArticleListByCondition - <==      Total: 1
+[DEBUG] 2018-05-09 16:09:02.768 [http-nio-8081-exec-2] selectAllTagView - ==>  Preparing: SELECT tag.id AS tagId, tag.name AS tagName, COUNT(tag_article.article_id) AS articleCount FROM tag_article LEFT JOIN tag ON tag.id = tag_article.tag_id GROUP BY tag_article.tag_id 
+[DEBUG] 2018-05-09 16:09:02.768 [http-nio-8081-exec-2] selectAllTagView - ==> Parameters: 
+[DEBUG] 2018-05-09 16:09:02.771 [http-nio-8081-exec-2] selectAllTagView - <==      Total: 6
+[DEBUG] 2018-05-09 16:09:05.744 [http-nio-8081-exec-9] getArticleListByTagId - ==>  Preparing: SELECT article.id,title,introduction,article.gmt_create AS gmtCreate,article.gmt_modified AS gmtModified FROM article INNER JOIN tag_article ON tag_article.article_id = article.id AND tag_article.tag_id=? ORDER BY article.gmt_create DESC 
+[DEBUG] 2018-05-09 16:09:05.748 [http-nio-8081-exec-9] getArticleListByTagId - ==> Parameters: 13(Integer)
+[DEBUG] 2018-05-09 16:09:05.758 [http-nio-8081-exec-9] getArticleListByTagId - <==      Total: 1
+[DEBUG] 2018-05-09 16:09:05.759 [http-nio-8081-exec-9] selectAllTagView - ==>  Preparing: SELECT tag.id AS tagId, tag.name AS tagName, COUNT(tag_article.article_id) AS articleCount FROM tag_article LEFT JOIN tag ON tag.id = tag_article.tag_id GROUP BY tag_article.tag_id 
+[DEBUG] 2018-05-09 16:09:05.759 [http-nio-8081-exec-9] selectAllTagView - ==> Parameters: 
+[DEBUG] 2018-05-09 16:09:05.762 [http-nio-8081-exec-9] selectAllTagView - <==      Total: 6
+[DEBUG] 2018-05-09 16:09:08.192 [http-nio-8081-exec-2] getArticleListByTagId - ==>  Preparing: SELECT article.id,title,introduction,article.gmt_create AS gmtCreate,article.gmt_modified AS gmtModified FROM article INNER JOIN tag_article ON tag_article.article_id = article.id AND tag_article.tag_id=? ORDER BY article.gmt_create DESC 
+[DEBUG] 2018-05-09 16:09:08.193 [http-nio-8081-exec-2] getArticleListByTagId - ==> Parameters: 14(Integer)
+[DEBUG] 2018-05-09 16:09:08.196 [http-nio-8081-exec-2] getArticleListByTagId - <==      Total: 1
+[DEBUG] 2018-05-09 16:09:08.197 [http-nio-8081-exec-2] selectAllTagView - ==>  Preparing: SELECT tag.id AS tagId, tag.name AS tagName, COUNT(tag_article.article_id) AS articleCount FROM tag_article LEFT JOIN tag ON tag.id = tag_article.tag_id GROUP BY tag_article.tag_id 
+[DEBUG] 2018-05-09 16:09:08.197 [http-nio-8081-exec-2] selectAllTagView - ==> Parameters: 
+[DEBUG] 2018-05-09 16:09:08.199 [http-nio-8081-exec-2] selectAllTagView - <==      Total: 6
+[DEBUG] 2018-05-09 16:09:11.206 [http-nio-8081-exec-9] getArticleListByTagId - ==>  Preparing: SELECT article.id,title,introduction,article.gmt_create AS gmtCreate,article.gmt_modified AS gmtModified FROM article INNER JOIN tag_article ON tag_article.article_id = article.id AND tag_article.tag_id=? ORDER BY article.gmt_create DESC 
+[DEBUG] 2018-05-09 16:09:11.206 [http-nio-8081-exec-9] getArticleListByTagId - ==> Parameters: 18(Integer)
+[DEBUG] 2018-05-09 16:09:11.207 [http-nio-8081-exec-9] getArticleListByTagId - <==      Total: 1
+[DEBUG] 2018-05-09 16:09:11.208 [http-nio-8081-exec-9] selectAllTagView - ==>  Preparing: SELECT tag.id AS tagId, tag.name AS tagName, COUNT(tag_article.article_id) AS articleCount FROM tag_article LEFT JOIN tag ON tag.id = tag_article.tag_id GROUP BY tag_article.tag_id 
+[DEBUG] 2018-05-09 16:09:11.208 [http-nio-8081-exec-9] selectAllTagView - ==> Parameters: 
+[DEBUG] 2018-05-09 16:09:11.210 [http-nio-8081-exec-9] selectAllTagView - <==      Total: 6

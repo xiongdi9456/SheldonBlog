@@ -1,12 +1,56 @@
 package com.sheldon.sheldonblog.service;
 
-import com.sheldon.sheldonblog.common.MyServiceInterface;
+
 import com.sheldon.sheldonblog.entity.User;
+import com.sheldon.sheldonblog.entity.dto.form.UserLoginForm;
+import com.sheldon.sheldonblog.entity.dto.form.UserRegisterForm;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
-public interface UserService extends MyServiceInterface<User>{
+/**
+ * 用户信息操作接口
+ *
+ * @author James
+ */
+public interface UserService {
 
-    public List<User> getList(int pageNum, int pageSize);
+  /**
+   * 进行登录验证
+   *
+   * @param loginForm 登录表单
+   *
+   * @return 如果验证通过返回 User 实体
+   */
+  User loginAuthentication(UserLoginForm loginForm);
 
+  /**
+   * 进行用户注册中的用户名重复校验
+   *
+   * @param registerForm 注册表单
+   *
+   * @return 该用户民是否存在
+   */
+  boolean registerUsernameCheckExist(UserRegisterForm registerForm);
+
+  /**
+   * 保存用户
+   *
+   * @param user 用户
+   */
+  void insertUser(User user);
+
+  /**
+   * 将用户信息加入会话
+   *
+   * @param request 用户请求
+   * @param user    当前用户的信息
+   */
+  void joinSession(HttpServletRequest request, User user);
+
+  /**
+   * 从会话中销毁用户信息
+   *
+   * @param request 用户请求
+   */
+  void destroySession(HttpServletRequest request);
 }

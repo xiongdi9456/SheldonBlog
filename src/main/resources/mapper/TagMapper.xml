@@ -10,4 +10,13 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
+
+  <select id="selectTagByName" resultType="com.sheldon.sheldonblog.entity.Tag">
+    SELECT * from tag where 1=1
+    <if test="tagName != null and tagName!= ''">
+      and name =#{tagName}
+    </if>
+
+  </select>
+
 </mapper>

@@ -1,5 +1,7 @@
 package com.sheldon.sheldonblog.interceptor;
 
+import com.sheldon.sheldonblog.consts.SessionConstants;
+import com.sheldon.sheldonblog.entity.AdminUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
@@ -10,12 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
-public class MyInterceptor implements HandlerInterceptor{
+public class MyAdminInterceptor implements HandlerInterceptor{
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        //return false;
+
+        //检测有没有登录admin用户
+        Object obj = httpServletRequest.getSession().getAttribute(SessionConstants.SESSION_ADMIN_CURRENT_USER);
+        if (null == obj || !(obj instanceof AdminUser)) {
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/adminlogin");
+            return false;
+        }
+
         String ip = httpServletRequest.getRemoteAddr();
         long startTime = System.currentTimeMillis();
         httpServletRequest.setAttribute("requestStartTime", startTime);
@@ -23,16 +32,6 @@ public class MyInterceptor implements HandlerInterceptor{
         Method method = handlerMethod.getMethod();
         logger.debug("用户:"+ip+",访问目标:"+method.getDeclaringClass().getName() + "." + method.getName());
 
-        //可以在此进行一些操作
-        /*
-        * User user=(User)request.getSession().getAttribute("user");
-        if(null==user){
-            response.sendRedirect("toLogin");
-            flag = false;
-        }else{
-            flag = true;
-        }
-        return flag;*/
         return true;
     }
 
